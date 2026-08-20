@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submissions Dashboard — NSUTTO AI Evaluation</title>
+    <meta name="description" content="Dashboard for viewing all NSUTTO AI for Executives evaluation submissions.">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="responses.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="logo-wrap">
+                    <img src="logo.png" alt="North South University Technology Transfer Office Logo" class="logo-img">
+                </div>
+                <div class="brand-text">
+                    <h1 class="brand-title">North South University<br><span>Technology Transfer Office</span></h1>
+                    <p class="brand-sub">Submissions Dashboard</p>
+                </div>
+            </div>
+
+            <a href="index.html" class="header-link">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Take the evaluation
+            </a>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Stats -->
+        <section class="stats-row" id="statsRow">
+            <div class="stat-card">
+                <div class="stat-label">Total Submissions</div>
+                <div class="stat-value" id="statTotal">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Average Score</div>
+                <div class="stat-value" id="statAvg">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Pass Rate (≥70%)</div>
+                <div class="stat-value" id="statPassRate">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Highest Score</div>
+                <div class="stat-value" id="statHighest">—</div>
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <section class="controls-card">
+            <div class="controls-grid">
+                <div class="control-field control-search">
+                    <label for="searchInput">Search</label>
+                    <div class="search-wrap">
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                        <input type="search" id="searchInput" placeholder="Search by ID or response text…">
+                    </div>
+                </div>
+
+                <div class="control-field">
+                    <label for="filterMin">Min Score %</label>
+                    <input type="number" id="filterMin" min="0" max="100" placeholder="0" inputmode="numeric">
+                </div>
+
+                <div class="control-field">
+                    <label for="filterMax">Max Score %</label>
+                    <input type="number" id="filterMax" min="0" max="100" placeholder="100" inputmode="numeric">
+                </div>
+
+                <div class="control-field">
+                    <label for="filterStatus">Status</label>
+                    <select id="filterStatus">
+                        <option value="">All</option>
+                        <option value="passed">Passed (≥70%)</option>
+                        <option value="review">Needs Review (50–69%)</option>
+                        <option value="low">Below 50%</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions-row">
+                <button type="button" class="btn-secondary" id="refreshBtn">
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Refresh from GitHub
+                </button>
+                <button type="button" class="btn-secondary" id="exportJsonBtn">
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Export JSON
+                </button>
+                <button type="button" class="btn-secondary" id="exportCsvBtn">
+                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Export CSV
+                </button>
+                <span class="load-status" id="loadStatus"></span>
+            </div>
+
+            <details class="token-panel">
+                <summary>
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                    <span>GitHub token</span>
+                </summary>
+                <div class="token-body">
+                    <p class="settings-help">
+                        To fetch submissions from the GitHub repository, paste a Personal Access Token with <code>repo</code> scope.
+                        Without a token, only locally stored submissions are shown.
+                    </p>
+                    <div class="token-input-wrap">
+                        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false">
+                        <button type="button" class="btn-secondary" id="saveTokenBtn">Save</button>
+                        <button type="button" class="btn-ghost" id="clearTokenBtn">Clear</button>
+                    </div>
+                    <p class="status-line" id="tokenStatus"></p>
+                </div>
+            </details>
+        </section>
+
+        <!-- Submissions list -->
+        <section class="submissions-section">
+            <div class="section-head">
+                <h2 class="section-title">Submissions</h2>
+                <span class="results-count" id="resultsCount">0 results</span>
+            </div>
+
+            <div id="submissionsList" class="submissions-list"></div>
+
+            <div class="empty-state" id="emptyState" hidden>
+                <svg viewBox="0 0 64 64" width="48" height="48" aria-hidden="true">
+                    <rect x="12" y="8" width="40" height="48" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                    <path d="M20 22h24M20 30h24M20 38h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
+                </svg>
+                <h3>No submissions yet</h3>
+                <p>Once people complete the evaluation form, their responses will appear here. Make sure a GitHub token is configured to fetch remote submissions.</p>
+                <a href="index.html" class="btn-primary">Take the evaluation</a>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <p>© <span id="year"></span> North South University Technology Transfer Office — NSUTTO</p>
+        </footer>
+    </main>
+
+    <div class="toast" id="toast" hidden></div>
+
+    <script src="responses.js"></script>
+</body>
+</html>

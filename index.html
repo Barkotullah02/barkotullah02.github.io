@@ -648,6 +648,20 @@
     <audio id="bgm" src="bgm.mp3" loop></audio>
 
     <script src="contact-handler.js"></script>
+
+    <!-- Three.js ES-module importmap (must appear before any module script) -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three":          "https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js",
+            "three/addons/":  "https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- High-graphics 3D background (ES module, homepage only) -->
+    <script type="module" src="bg3d.js"></script>
+
     <script src="script.js"></script>
 </body>
 </html>

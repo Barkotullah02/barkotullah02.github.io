@@ -364,82 +364,11 @@ body {
 .btn-ghost:hover { color: var(--ink); background: var(--bg-subtle); }
 
 /* ====================================================================
-   Token panel
+   Token panel — removed in v2. The dashboard no longer asks for a
+   GitHub token. The block is kept here as a comment so the file
+   stays consistent with the legacy version in git history.
    ==================================================================== */
-.token-panel {
-    margin-top: 14px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-}
-
-.token-panel summary {
-    list-style: none;
-    cursor: pointer;
-    padding: 10px 14px;
-    font-weight: 500;
-    font-size: 13px;
-    color: var(--ink-muted);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    user-select: none;
-}
-
-.token-panel summary::-webkit-details-marker { display: none; }
-.token-panel summary:hover { color: var(--navy); background: var(--navy-tint); }
-
-.token-body {
-    padding: 4px 14px 14px;
-    border-top: 1px solid var(--border);
-}
-
-.settings-help {
-    color: var(--ink-muted);
-    font-size: 13px;
-    margin: 12px 0 14px;
-}
-
-.settings-help code {
-    background: var(--bg-subtle);
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: var(--navy);
-}
-
-.token-input-wrap {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-#tokenInput {
-    flex: 1;
-    min-width: 220px;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--radius-md);
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 13px;
-    background: var(--bg);
-}
-
-#tokenInput:focus {
-    outline: none;
-    border-color: var(--navy);
-    background: var(--surface);
-    box-shadow: 0 0 0 3px var(--navy-tint);
-}
-
-.status-line {
-    font-size: 13px;
-    color: var(--ink-muted);
-    margin: 8px 0 0;
-    min-height: 16px;
-}
-.status-line.success { color: var(--success); }
-.status-line.error { color: var(--error); }
+/* (removed: .token-panel, .token-body, #tokenInput, .status-line) */
 
 /* ====================================================================
    Submissions
@@ -538,15 +467,58 @@ body {
 
 .submission-id {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 13px;
-    color: var(--navy);
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-weight: 500;
+    margin-bottom: 4px;
+    word-break: break-all;
+}
+
+.participant-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
     font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.participant-contact {
+    font-size: 13px;
+    color: var(--ink-muted);
     margin-bottom: 4px;
 }
 
-.submission-date {
-    font-size: 13px;
+.participant-contact a {
+    color: var(--navy);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--navy);
+}
+
+.participant-contact a:hover {
+    color: var(--navy-dark);
+    border-bottom-style: solid;
+}
+
+.participant-contact .muted {
+    color: var(--ink-faint);
+    font-style: italic;
+}
+
+.participant-contact .sid {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 12px;
     color: var(--ink-muted);
+}
+
+.dot-sep {
+    margin: 0 6px;
+    color: var(--ink-faint);
+}
+
+.submission-date {
+    font-size: 12px;
+    color: var(--ink-faint);
 }
 
 .submission-status {
@@ -580,6 +552,26 @@ body {
 .submission-toggle:hover { background: var(--navy-soft); color: var(--navy); }
 .submission-toggle .chevron { transition: transform 300ms ease; }
 .submission-card.open .submission-toggle .chevron { transform: rotate(180deg); }
+
+.submission-result-link {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-subtle);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.submission-result-link:hover {
+    background: var(--navy-soft);
+    color: var(--navy);
+    transform: translate(1px, -1px);
+}
 
 /* Expanded body */
 .submission-body {
@@ -724,6 +716,16 @@ body {
 .answer-tag.correct { color: var(--success); background: var(--success-bg); }
 .answer-tag.incorrect { color: var(--error); background: var(--error-bg); }
 
+.answer-reason {
+    display: block;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed var(--border-strong);
+    color: var(--ink);
+    font-style: italic;
+    font-size: 12px;
+}
+
 /* ====================================================================
    Empty state
    ==================================================================== */
@@ -750,6 +752,14 @@ body {
     max-width: 460px;
     margin: 0 auto 20px;
     font-size: 14px;
+}
+
+.empty-state code {
+    background: var(--bg-subtle);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: var(--navy);
 }
 
 /* ====================================================================

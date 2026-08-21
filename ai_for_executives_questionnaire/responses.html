@@ -60,10 +60,10 @@
         <section class="controls-card">
             <div class="controls-grid">
                 <div class="control-field control-search">
-                    <label for="searchInput">Search</label>
+                    <label for="searchInput">Search by name, email, or student ID</label>
                     <div class="search-wrap">
                         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                        <input type="search" id="searchInput" placeholder="Search by ID or response text…">
+                        <input type="search" id="searchInput" placeholder="e.g. Anika, anika@example.com, 2123…" autocomplete="off">
                     </div>
                 </div>
 
@@ -89,39 +89,8 @@
             </div>
 
             <div class="actions-row">
-                <button type="button" class="btn-secondary" id="refreshBtn">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Refresh from GitHub
-                </button>
-                <button type="button" class="btn-secondary" id="exportJsonBtn">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Export JSON
-                </button>
-                <button type="button" class="btn-secondary" id="exportCsvBtn">
-                    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Export CSV
-                </button>
                 <span class="load-status" id="loadStatus"></span>
             </div>
-
-            <details class="token-panel">
-                <summary>
-                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-                    <span>GitHub token</span>
-                </summary>
-                <div class="token-body">
-                    <p class="settings-help">
-                        To fetch submissions from the GitHub repository, paste a Personal Access Token with <code>repo</code> scope.
-                        Without a token, only locally stored submissions are shown.
-                    </p>
-                    <div class="token-input-wrap">
-                        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false">
-                        <button type="button" class="btn-secondary" id="saveTokenBtn">Save</button>
-                        <button type="button" class="btn-ghost" id="clearTokenBtn">Clear</button>
-                    </div>
-                    <p class="status-line" id="tokenStatus"></p>
-                </div>
-            </details>
         </section>
 
         <!-- Submissions list -->
@@ -139,7 +108,7 @@
                     <path d="M20 22h24M20 30h24M20 38h16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>
                 </svg>
                 <h3>No submissions yet</h3>
-                <p>Once people complete the evaluation form, their responses will appear here. Make sure a GitHub token is configured to fetch remote submissions.</p>
+                <p>Submissions are stored in <strong>Supabase</strong>. Once participants complete the evaluation, their entries will appear here automatically.</p>
                 <a href="index.html" class="btn-primary">Take the evaluation</a>
             </div>
         </section>
@@ -151,6 +120,8 @@
 
     <div class="toast" id="toast" hidden></div>
 
-    <script src="responses.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

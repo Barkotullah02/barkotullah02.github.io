@@ -29,7 +29,7 @@
             </div>
 
             <!-- Progress pill -->
-            <div class="progress-pill" id="progressPill" aria-live="polite">
+            <div class="progress-pill" id="progressPill" aria-live="polite" hidden>
                 <span class="progress-section" id="progressSection">Section 1 of 5</span>
                 <span class="progress-divider" aria-hidden="true">•</span>
                 <span class="progress-q" id="progressQuestion">Question 1 of 20</span>
@@ -39,24 +39,55 @@
 
     <!-- Main content -->
     <main class="container">
-        <!-- Intro panel -->
-        <section class="intro-card" id="introCard">
+        <!-- Participant intake -->
+        <section class="intro-card" id="participantCard">
             <div class="intro-badge">FINAL EVALUATION</div>
-            <h2 class="intro-title">Welcome to your AI Literacy Assessment</h2>
+            <h2 class="intro-title">Before we begin — a few details</h2>
             <p class="intro-text">
-                This evaluation contains <strong>20 multiple-choice questions</strong> across five sections covering generative AI,
-                real-world workplace scenarios, LLM tools, machine learning approaches, and automation platforms.
-                Take your time — there is no time limit.
+                Please enter your details below. Your <strong>full name</strong> will appear on
+                your certificate, and we use your email to look up your result later.
             </p>
-            <ul class="intro-list">
-                <li><span class="dot"></span> Select the single best answer for each question</li>
-                <li><span class="dot"></span> Your responses are scored automatically upon submission</li>
-                <li><span class="dot"></span> Results are saved as a JSON record in this repository</li>
-            </ul>
-            <button class="btn-primary" id="startBtn" type="button">
-                Begin Evaluation
-                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+
+            <form id="participantForm" class="participant-form" novalidate>
+                <div class="form-row">
+                    <label for="fullName">Full name <span class="req">*</span></label>
+                    <input type="text" id="fullName" name="fullName" autocomplete="name" required placeholder="e.g. Anika Tabassum">
+                </div>
+                <div class="form-row">
+                    <label for="email">Email address <span class="req">*</span></label>
+                    <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-row">
+                    <label for="studentId">Student ID <span class="opt">(optional)</span></label>
+                    <input type="text" id="studentId" name="studentId" autocomplete="off" placeholder="e.g. 2123456789">
+                </div>
+                <p class="form-status" id="participantStatus" aria-live="polite"></p>
+                <button class="btn-primary" id="startEvalBtn" type="submit" disabled>
+                    Start Evaluation
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </form>
+        </section>
+
+        <!-- Already taken / locked device -->
+        <section class="intro-card" id="lockedCard" hidden>
+            <div class="intro-badge locked-badge">ALREADY COMPLETED</div>
+            <h2 class="intro-title">You've already taken this evaluation on this device</h2>
+            <p class="intro-text" id="lockedText">
+                Each device is allowed exactly one attempt. Your responses were already recorded.
+            </p>
+        </section>
+
+        <!-- Submission success -->
+        <section class="intro-card success-card" id="successCard" hidden>
+            <div class="success-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="32" height="32"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h2 class="intro-title">Submitted successfully</h2>
+            <p class="intro-text" id="successText">
+                Thank you — your responses have been recorded.
+                You may close this tab.
+            </p>
         </section>
 
         <!-- Form -->
@@ -78,85 +109,41 @@
             </div>
         </form>
 
-        <!-- Settings panel (GitHub token) -->
+        <!-- Storage settings explainer (no token UI) -->
         <details class="settings-panel">
             <summary>
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
-                <span>Response storage settings</span>
+                <span>How your responses are stored</span>
             </summary>
             <div class="settings-body">
                 <p class="settings-help">
-                    To save responses as JSON files in the repository (recommended), paste a GitHub Personal Access Token
-                    with <code>repo</code> scope. Without a token, responses are saved locally in this browser only.
+                    Your responses are sent to <strong>Supabase</strong> when you press Submit. That's the
+                    canonical store — the program owner can review every submission from any device by
+                    opening the dashboard pages.
                 </p>
-                <div class="settings-row">
-                    <label for="tokenInput">GitHub Personal Access Token</label>
-                    <div class="token-input-wrap">
-                        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false">
-                        <button type="button" class="btn-secondary" id="saveTokenBtn">Save</button>
-                        <button type="button" class="btn-ghost" id="clearTokenBtn">Clear</button>
-                    </div>
-                    <p class="status-line" id="tokenStatus"></p>
-                </div>
+                <p class="settings-help">
+                    We do <strong>not</strong> ask for, store, or transmit any credentials. Nothing is sent
+                    anywhere automatically except the single submission row when you press Submit.
+                </p>
             </div>
         </details>
 
         <!-- Footer -->
         <footer class="site-footer">
             <p>© <span id="year"></span> North South University Technology Transfer Office — NSUTTO</p>
-            <a href="responses.html" class="footer-link">
+            <a href="result.html" class="footer-link">
                 View all submissions
                 <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
         </footer>
     </main>
 
-    <!-- Results Modal -->
-    <div class="modal-overlay" id="resultsModal" hidden>
-        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="resultsTitle">
-            <button class="modal-close" id="modalClose" aria-label="Close results">
-                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-            </button>
-
-            <div class="result-header">
-                <div class="result-badge" id="resultBadge">PROFICIENT</div>
-                <h2 id="resultsTitle">Your Results</h2>
-                <p class="result-subtitle" id="resultSubtitle">Thank you for completing the evaluation.</p>
-            </div>
-
-            <!-- Circular score -->
-            <div class="score-ring-wrap">
-                <svg class="score-ring" viewBox="0 0 200 200" aria-hidden="true">
-                    <circle cx="100" cy="100" r="86" class="ring-track"/>
-                    <circle cx="100" cy="100" r="86" class="ring-fill" id="ringFill"/>
-                </svg>
-                <div class="score-center">
-                    <div class="score-percent" id="scorePercent">0%</div>
-                    <div class="score-fraction" id="scoreFraction">0 / 20</div>
-                </div>
-            </div>
-
-            <!-- Section breakdown -->
-            <div class="section-breakdown" id="sectionBreakdown"></div>
-
-            <!-- Actions -->
-            <div class="result-actions">
-                <button type="button" class="btn-secondary" id="downloadBtn">
-                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    Download my responses
-                </button>
-                <button type="button" class="btn-primary" id="retakeBtn">
-                    Submit another response
-                </button>
-            </div>
-
-            <p class="save-status" id="saveStatus"></p>
-        </div>
-    </div>
-
     <!-- Toast -->
     <div class="toast" id="toast" hidden></div>
 
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

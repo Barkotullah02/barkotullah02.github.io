@@ -1,1 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North South University Technology Transfer Office-NSUTTO</title>
+    <meta name="description" content="AI for Executives — Final Evaluation. A 20-question assessment by North South University Technology Transfer Office (NSUTTO).">
+    <meta name="theme-color" content="#1e3a5f">
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <!-- Top Bar -->
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="logo-wrap">
+                    <img src="logo.png" alt="North South University Technology Transfer Office Logo" class="logo-img">
+                </div>
+                <div class="brand-text">
+                    <h1 class="brand-title">North South University<br><span>Technology Transfer Office</span></h1>
+                    <p class="brand-sub">AI for Executives — Final Evaluation</p>
+                </div>
+            </div>
+
+            <!-- Progress pill -->
+            <div class="progress-pill" id="progressPill" aria-live="polite" hidden>
+                <span class="progress-section" id="progressSection">Section 1 of 5</span>
+                <span class="progress-divider" aria-hidden="true">•</span>
+                <span class="progress-q" id="progressQuestion">Question 1 of 20</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="container">
+        <!-- Participant intake -->
+        <section class="intro-card" id="participantCard">
+            <div class="intro-badge">FINAL EVALUATION</div>
+            <h2 class="intro-title">Before we begin — a few details</h2>
+            <p class="intro-text">
+                Please enter your details below. Your <strong>full name</strong> will appear on
+                your certificate, and we use your email to look up your result later.
+            </p>
+
+            <form id="participantForm" class="participant-form" novalidate>
+                <div class="form-row">
+                    <label for="fullName">Full name <span class="req">*</span></label>
+                    <input type="text" id="fullName" name="fullName" autocomplete="name" required placeholder="e.g. Anika Tabassum">
+                </div>
+                <div class="form-row">
+                    <label for="email">Email address <span class="req">*</span></label>
+                    <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-row">
+                    <label for="studentId">Student ID <span class="opt">(optional)</span></label>
+                    <input type="text" id="studentId" name="studentId" autocomplete="off" placeholder="e.g. 2123456789">
+                </div>
+                <p class="form-status" id="participantStatus" aria-live="polite"></p>
+                <button class="btn-primary" id="startEvalBtn" type="submit" disabled>
+                    Start Evaluation
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </form>
+        </section>
+
+        <!-- Already taken / locked device -->
+        <section class="intro-card" id="lockedCard" hidden>
+            <div class="intro-badge locked-badge">ALREADY COMPLETED</div>
+            <h2 class="intro-title">You've already taken this evaluation on this device</h2>
+            <p class="intro-text" id="lockedText">
+                Each device is allowed exactly one attempt. Your responses were already recorded.
+            </p>
+        </section>
+
+        <!-- Submission success -->
+        <section class="intro-card success-card" id="successCard" hidden>
+            <div class="success-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="32" height="32"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h2 class="intro-title">Submitted successfully</h2>
+            <p class="intro-text" id="successText">
+                Thank you — your responses have been recorded.
+                You may close this tab.
+            </p>
+        </section>
+
+        <!-- Form -->
+        <form id="evaluationForm" class="evaluation-form" novalidate hidden>
+            <div id="sectionsContainer"></div>
+
+            <!-- Submission bar -->
+            <div class="submit-bar">
+                <div class="progress-meta">
+                    <div class="progress-track" aria-hidden="true">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span class="progress-text" id="progressText">0 of 20 answered</span>
+                </div>
+                <button type="submit" class="btn-primary btn-submit" id="submitBtn">
+                    Submit Evaluation
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </form>
+
+        <!-- Storage settings explainer (no token UI) -->
+        <details class="settings-panel">
+            <summary>
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+                <span>How your responses are stored</span>
+            </summary>
+            <div class="settings-body">
+                <p class="settings-help">
+                    Your responses are sent to <strong>Supabase</strong> when you press Submit. That's the
+                    canonical store — the program owner can review every submission from any device by
+                    opening the dashboard pages.
+                </p>
+                <p class="settings-help">
+                    We do <strong>not</strong> ask for, store, or transmit any credentials. Nothing is sent
+                    anywhere automatically except the single submission row when you press Submit.
+                </p>
+            </div>
+        </details>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <p>© <span id="year"></span> North South University Technology Transfer Office — NSUTTO</p>
+            <a href="result.html" class="footer-link">
+                View all submissions
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+        </footer>
+    </main>
+
+    <!-- Toast -->
+    <div class="toast" id="toast" hidden></div>
+
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

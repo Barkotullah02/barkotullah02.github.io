@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NSUIT Classroom Support — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===================== LOGIN ===================== -->
+  <div id="login-view" class="login-view">
+    <form id="login-form" class="login-card" autocomplete="on">
+      <div class="brand-mark"><img src="logo.png" alt="NSUIT Classroom Support logo" /></div>
+      <h1 class="login-title">NSU IT Classroom Support</h1>
+      <p class="login-sub">Admin Console</p>
+
+      <label class="field">
+        <span>Email</span>
+        <input id="login-email" type="email" placeholder="admin@nsu.edu" required />
+      </label>
+
+      <label class="field">
+        <span>Password</span>
+        <span class="pw-wrap">
+          <input id="login-password" type="password" placeholder="••••••••" required />
+          <button type="button" id="pw-toggle" class="pw-toggle" aria-label="Show password">👁</button>
+        </span>
+      </label>
+
+      <p id="login-error" class="form-error" hidden></p>
+
+      <button id="login-btn" type="submit" class="btn btn-primary btn-block">Sign In</button>
+      <p class="login-note">Only administrators can sign in here.</p>
+    </form>
+  </div>
+
+  <!-- ===================== APP ===================== -->
+  <div id="app-view" class="app-view" hidden>
+    <div id="scrim" class="scrim" hidden></div>
+
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-dot">🎧</span>
+        <div>
+          <strong>NSUIT Support</strong>
+          <small>Admin Console</small>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-route="dashboard">Dashboard</button>
+        <button class="nav-item" data-route="support">Support Records</button>
+        <button class="nav-item" data-route="types">Support Types</button>
+        <button class="nav-item" data-route="tasks">Tasks</button>
+        <button class="nav-item" data-route="users">Users</button>
+        <button class="nav-item" data-route="inbox">Inbox
+          <span id="nav-inbox-badge" class="badge" hidden>0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="me">
+          <div id="me-avatar" class="avatar">A</div>
+          <div class="me-info">
+            <strong id="me-name">Admin</strong>
+            <small id="me-email">—</small>
+          </div>
+        </div>
+        <button id="logout-btn" class="btn btn-ghost btn-block">Sign out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menu-toggle" class="icon-btn only-mobile" aria-label="Menu">☰</button>
+        <h2 id="section-title">Dashboard</h2>
+        <button id="topbar-inbox" class="icon-btn" aria-label="Inbox">
+          🔔<span id="top-inbox-badge" class="badge" hidden>0</span>
+        </button>
+      </header>
+
+      <section id="content" class="content"><!-- rendered by app.js --></section>
+    </main>
+  </div>
+
+  <!-- toast + modal roots -->
+  <div id="toasts" class="toasts"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
